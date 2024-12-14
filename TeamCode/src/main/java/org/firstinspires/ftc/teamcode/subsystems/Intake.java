@@ -6,5 +6,6 @@ public class Intake
 {
     private CRServo leftServo;
     private CRServo rightServo;
+
     // intake method in google docs
 }
