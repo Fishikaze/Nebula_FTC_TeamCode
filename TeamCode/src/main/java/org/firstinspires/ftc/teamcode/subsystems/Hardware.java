@@ -30,7 +30,7 @@ public class Hardware
         leftServo = hardwareMap.get(CRServo.class,"ls");
         rightServo = hardwareMap.get(CRServo.class,"rs");
     }
-    public void hardwareMapLinearActuator(HardwareMap hardwareMap)
+    public void hardwareMapLinearActuators(HardwareMap hardwareMap)
     {
         linearActuator1 = hardwareMap.get(DcMotor.class, "la1");
         linearActuator2 = hardwareMap.get(DcMotor.class, "la2");
