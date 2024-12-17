@@ -21,22 +21,28 @@ public class Arm
         hardware.hardwareMapArm(hardwareMap);
         armSlideMotor = hardware.getArmSlideMotor();
         armRotateMotor = hardware.getArmRotationMotor();
+
+        armRotateMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
     public void setArmLevel(String pos)
     {
-        if( pos.equals("TOP"))
+        int currentPosition = armRotateMotor.getCurrentPosition();
+        int targetPosition = (pos.equals("TOP") ? ARM_TOP_POSITION : ARM_BOTTOM_POSITION);
+        if (currentPosition < targetPosition)
         {
-            armRotateMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            armRotateMotor.setPower(0.7);
-            armRotateMotor.setTargetPosition(ARM_TOP_POSITION);
+            armRotateMotor.setPower(1);
+            armRotateMotor.setTargetPosition(targetPosition);
             armRotateMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
-        else if (pos.equals("BOTTOM"))
+        else if (currentPosition > targetPosition)
         {
-            armRotateMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             armRotateMotor.setPower(-0.7);
-            armRotateMotor.setTargetPosition(ARM_BOTTOM_POSITION);
+            armRotateMotor.setTargetPosition(targetPosition);
             armRotateMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        else
+        {
+            armRotateMotor.setPower(0);
         }
     }
     public void extendArmSlide()
