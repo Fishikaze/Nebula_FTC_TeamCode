@@ -1,8 +1,10 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.diagnostics;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
+
+import org.firstinspires.ftc.teamcode.subsystems.Hardware;
 
 
 // LS - Reverse RS - Forward | Intake
@@ -10,15 +12,18 @@ import com.qualcomm.robotcore.hardware.CRServo;
 
 @TeleOp(name = "ClawDiagnostic")
 
-public class ClawDiagnostic extends LinearOpMode
+public class IntakeDiagnostic extends LinearOpMode
 {
     private CRServo leftServo, rightServo;
     private final double POWER = 0.7;
     @Override
     public void runOpMode() throws InterruptedException
     {
-        leftServo = hardwareMap.get(CRServo.class, "LS");
-        rightServo = hardwareMap.get(CRServo.class, "RS");
+        Hardware hardware = new Hardware();
+        hardware.hardwareMapServos(hardwareMap);
+
+        leftServo = hardware.getLeftServo();
+        rightServo = hardware.getRightServo();
 
         waitForStart();
 
