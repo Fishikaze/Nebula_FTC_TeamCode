@@ -14,7 +14,8 @@ public class Hardware
     private DcMotor backLeftDrive;
     private DcMotor linearActuator1;
     private DcMotor linearActuator2;
-
+    private DcMotor armSlideMotor;
+    private DcMotor armRotationMotor;
     private CRServo leftServo;
     private CRServo rightServo;
     public void hardwareMapDrivetrain(HardwareMap hardwareMap)
@@ -35,6 +36,11 @@ public class Hardware
         linearActuator1 = hardwareMap.get(DcMotor.class, "la1");
         linearActuator2 = hardwareMap.get(DcMotor.class, "la2");
     }
+    public void hardwareMapArm(HardwareMap hardwareMap)
+    {
+        armSlideMotor = hardwareMap.get(DcMotor.class, "asm");
+        armRotationMotor = hardwareMap.get(DcMotor.class, "arm");
+    }
     public DcMotor getFrontLeftDrive()
     {
         return frontLeftDrive;
@@ -51,8 +57,10 @@ public class Hardware
     {
         return backRightDrive;
     }
-    public DcMotor getLinearActuator1(){ return linearActuator1;}
-    public DcMotor getLinearActuator2(){ return linearActuator2;}
+    public DcMotor getLinearActuator1() { return linearActuator1;}
+    public DcMotor getLinearActuator2() { return linearActuator2;}
+    public DcMotor getArmSlideMotor() { return  armSlideMotor;}
+    public DcMotor getArmRotationMotor() { return  armRotationMotor;}
     public CRServo getLeftServo()
     {
         return leftServo;
