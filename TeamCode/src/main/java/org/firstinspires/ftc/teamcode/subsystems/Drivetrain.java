@@ -20,7 +20,7 @@ public class Drivetrain
         this.telemetry = telemetry;
 
         Hardware hardware = new Hardware();
-        hardware.hardwareMapMotors(hardwareMap);
+        hardware.hardwareMapDrivetrain(hardwareMap);
 
         frontLeftDrive = hardware.getFrontLeftDrive();
         frontRightDrive = hardware.getFrontRightDrive();
