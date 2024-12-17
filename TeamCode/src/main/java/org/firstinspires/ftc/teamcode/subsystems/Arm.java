@@ -22,6 +22,9 @@ public class Arm
         armSlideMotor = hardware.getArmSlideMotor();
         armRotateMotor = hardware.getArmRotationMotor();
 
+        armSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armRotateMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         armRotateMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
     public void setArmLevel(String pos)
