@@ -19,14 +19,10 @@ public class Hardware
     private CRServo rightServo;
     public void hardwareMapMotors(HardwareMap hardwareMap)
     {
-
         frontRightDrive = hardwareMap.get(DcMotor.class, "fr");
         frontLeftDrive = hardwareMap.get(DcMotor.class, "fl");
         backLeftDrive = hardwareMap.get(DcMotor.class, "bl");
         backRightDrive = hardwareMap.get(DcMotor.class, "br");
-
-
-
     }
 
     public void hardwareMapServos(HardwareMap hardwareMap)
