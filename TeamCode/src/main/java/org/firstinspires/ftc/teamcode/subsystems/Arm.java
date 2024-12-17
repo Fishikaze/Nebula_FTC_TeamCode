@@ -54,6 +54,7 @@ public class Arm
         armSlideMotor.setPower(0.7);
         armSlideMotor.setTargetPosition(ARM_EXTENDED_POSITION);
         armSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armRotateMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
     public void retractArmSlide()
     {
@@ -61,9 +62,15 @@ public class Arm
         armSlideMotor.setPower(-0.7);
         armSlideMotor.setTargetPosition(ARM_RETRACTED_POSITION);
         armSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armRotateMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
     public void moveArmSlide(double power)
     {
         armSlideMotor.setPower(power);
+    }
+    public void stopTargetingArm()
+    {
+        armRotateMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armRotateMotor.setPower(0);
     }
 }
