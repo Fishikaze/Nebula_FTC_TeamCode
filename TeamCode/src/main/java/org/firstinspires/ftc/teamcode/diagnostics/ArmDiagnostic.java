@@ -17,7 +17,7 @@ public class ArmDiagnostic extends LinearOpMode
     @Override
     public void runOpMode() throws InterruptedException {
         Hardware hardware = new Hardware();
-        hardware.hardwareMapDrivetrain(hardwareMap);
+        hardware.hardwareMapArm(hardwareMap);
 
         armSlideMotor = hardware.getArmSlideMotor();
         armRotateMotor = hardware.getArmRotationMotor();
