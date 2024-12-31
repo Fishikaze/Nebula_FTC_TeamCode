@@ -31,7 +31,13 @@ public class ArmDiagnostic extends LinearOpMode
             armSlideMotor.setPower(gamepad1.dpad_down ? -POWER : 0);
             armRotateMotor.setPower(gamepad1.left_bumper ? POWER : 0);
             armRotateMotor.setPower(gamepad1.right_bumper ? -POWER : 0);
+            telemetry.addLine("Dpad → Arm Rotate Motor");
+            telemetry.addLine("Bumpers → Front Right");
 
+            telemetry.addData("Front Left Power", armRotateMotor.getPower());
+            telemetry.addData("Front Right Power", armSlideMotor.getPower());
+
+            telemetry.update();
         }
     }
 }
