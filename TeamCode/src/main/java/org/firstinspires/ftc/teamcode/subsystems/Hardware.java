@@ -4,66 +4,78 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class Hardware
-{
+public class Hardware {
 
+    // Static hardware components
+    private static DcMotor frontRightDrive;
+    private static DcMotor frontLeftDrive;
+    private static DcMotor backRightDrive;
+    private static DcMotor backLeftDrive;
+    private static DcMotor linearActuator;
+    private static DcMotor armSlideMotor;
+    private static DcMotor armRotationMotor;
+    private static CRServo leftServo;
+    private static CRServo rightServo;
 
-    private DcMotor frontRightDrive;
-    private DcMotor frontLeftDrive;
-    private DcMotor backRightDrive;
-    private DcMotor backLeftDrive;
-    private DcMotor linearActuator;
-    private DcMotor armSlideMotor;
-    private DcMotor armRotationMotor;
-    private CRServo leftServo;
-    private CRServo rightServo;
-    public void hardwareMapDrivetrain(HardwareMap hardwareMap)
-    {
+    // Initialize drivetrain hardware
+    public static void initDrivetrain(HardwareMap hardwareMap) {
         frontRightDrive = hardwareMap.get(DcMotor.class, "fr");
         frontLeftDrive = hardwareMap.get(DcMotor.class, "fl");
         backLeftDrive = hardwareMap.get(DcMotor.class, "bl");
         backRightDrive = hardwareMap.get(DcMotor.class, "br");
     }
 
-    public void hardwareMapServos(HardwareMap hardwareMap)
-    {
-        leftServo = hardwareMap.get(CRServo.class,"ls");
-        rightServo = hardwareMap.get(CRServo.class,"rs");
+    // Initialize servo hardware
+    public static void initServos(HardwareMap hardwareMap) {
+        leftServo = hardwareMap.get(CRServo.class, "ls");
+        rightServo = hardwareMap.get(CRServo.class, "rs");
     }
-    public void hardwareMapLinearActuator(HardwareMap hardwareMap)
-    {
+
+    // Initialize linear actuator
+    public static void initLinearActuator(HardwareMap hardwareMap) {
         linearActuator = hardwareMap.get(DcMotor.class, "la1");
     }
-    public void hardwareMapArm(HardwareMap hardwareMap)
-    {
+
+    // Initialize arm hardware
+    public static void initArm(HardwareMap hardwareMap) {
         armSlideMotor = hardwareMap.get(DcMotor.class, "asm");
         armRotationMotor = hardwareMap.get(DcMotor.class, "arm");
     }
-    public DcMotor getFrontLeftDrive()
-    {
+
+    // Getters for hardware components
+    public static DcMotor getFrontLeftDrive() {
         return frontLeftDrive;
     }
-    public DcMotor getBackLeftDrive()
-    {
+
+    public static DcMotor getBackLeftDrive() {
         return backLeftDrive;
     }
-    public DcMotor getFrontRightDrive()
-    {
+
+    public static DcMotor getFrontRightDrive() {
         return frontRightDrive;
     }
-    public DcMotor getBackRightDrive()
-    {
+
+    public static DcMotor getBackRightDrive() {
         return backRightDrive;
     }
-    public DcMotor getLinearActuator() { return linearActuator;}
-    public DcMotor getArmSlideMotor() { return  armSlideMotor;}
-    public DcMotor getArmRotationMotor() { return  armRotationMotor;}
-    public CRServo getLeftServo()
-    {
+
+    public static DcMotor getLinearActuator() {
+        return linearActuator;
+    }
+
+    public static DcMotor getArmSlideMotor() {
+        return armSlideMotor;
+    }
+
+    public static DcMotor getArmRotationMotor() {
+        return armRotationMotor;
+    }
+
+    public static CRServo getLeftServo() {
         return leftServo;
     }
-    public CRServo getRightServo()
-    {
+
+    public static CRServo getRightServo() {
         return rightServo;
     }
 }

@@ -5,72 +5,82 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class Arm
-{
-    public DcMotor armSlideMotor;
-    public DcMotor armRotateMotor;
+public class Arm {
+
+    private DcMotor armSlideMotor;
+    private DcMotor armRotateMotor;
     private Telemetry telemetry;
-    private final int ARM_TOP_POSITION = 10;
-    private final int ARM_BOTTOM_POSITION = 0;
-    private final int ARM_EXTENDED_POSITION = 10;
-    private final int ARM_RETRACTED_POSITION = 0;
-    public Arm (HardwareMap hardwareMap, Telemetry telemetry)
-    {
+
+    private static final int ARM_TOP_POSITION = 10;
+    private static final int ARM_BOTTOM_POSITION = 0;
+    private static final int ARM_EXTENDED_POSITION = 10;
+    private static final int ARM_RETRACTED_POSITION = 0;
+
+    public Arm(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
-        Hardware hardware = new Hardware();
-        hardware.hardwareMapArm(hardwareMap);
-        armSlideMotor = hardware.getArmSlideMotor();
-        armRotateMotor = hardware.getArmRotationMotor();
+
+        Hardware.initArm(hardwareMap);
+        armSlideMotor = Hardware.getArmSlideMotor();
+        armRotateMotor = Hardware.getArmRotationMotor();
 
         armSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         armRotateMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
         armRotateMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
-    public void setArmLevel(String pos)
-    {
-        int currentPosition = armRotateMotor.getCurrentPosition();
-        int targetPosition = (pos.equals("TOP") ? ARM_TOP_POSITION : ARM_BOTTOM_POSITION);
-        if (currentPosition < targetPosition)
-        {
-            armRotateMotor.setPower(1);
-            armRotateMotor.setTargetPosition(targetPosition);
-            armRotateMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+    public void setArmLevel(String pos) {
+        int targetPosition = pos.equals("TOP") ? ARM_TOP_POSITION : ARM_BOTTOM_POSITION;
+
+        armRotateMotor.setTargetPosition(targetPosition);
+        armRotateMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armRotateMotor.setPower(targetPosition > armRotateMotor.getCurrentPosition() ? 1.0 : -0.7);
+
+        while (armRotateMotor.isBusy() && telemetry != null) {
+            telemetry.addData("Arm Position", armRotateMotor.getCurrentPosition());
+            telemetry.addData("Target Position", targetPosition);
+            telemetry.update();
         }
-        else if (currentPosition > targetPosition)
-        {
-            armRotateMotor.setPower(-0.7);
-            armRotateMotor.setTargetPosition(targetPosition);
-            armRotateMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-        else
-        {
-            armRotateMotor.setPower(0);
-        }
-    }
-    public void extendArmSlide()
-    {
-        armSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        armSlideMotor.setPower(0.7);
-        armSlideMotor.setTargetPosition(ARM_EXTENDED_POSITION);
-        armSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        armRotateMotor.setPower(0);
         armRotateMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
-    public void retractArmSlide()
-    {
-        armSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        armSlideMotor.setPower(-0.7);
-        armSlideMotor.setTargetPosition(ARM_RETRACTED_POSITION);
-        armSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        armRotateMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
+    public void extendArmSlide() {
+        moveArmSlideToPosition(ARM_EXTENDED_POSITION, 0.7);
     }
-    public void moveArmSlide(double power)
-    {
+
+
+    public void retractArmSlide() {
+        moveArmSlideToPosition(ARM_RETRACTED_POSITION, -0.7);
+    }
+
+
+    public void moveArmSlide(double power) {
+        armSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         armSlideMotor.setPower(power);
     }
-    public void stopTargetingArm()
-    {
+
+
+    public void stopTargetingArm() {
         armRotateMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         armRotateMotor.setPower(0);
+    }
+
+
+    private void moveArmSlideToPosition(int position, double power) {
+        armSlideMotor.setTargetPosition(position);
+        armSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armSlideMotor.setPower(power);
+
+        while (armSlideMotor.isBusy() && telemetry != null) {
+            telemetry.addData("Arm Slide Position", armSlideMotor.getCurrentPosition());
+            telemetry.addData("Target Position", position);
+            telemetry.update();
+        }
+
+        armSlideMotor.setPower(0);
+        armSlideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 }
