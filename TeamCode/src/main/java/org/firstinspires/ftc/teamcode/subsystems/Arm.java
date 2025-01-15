@@ -7,17 +7,17 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Arm {
 
-    private DcMotor armSlideMotor;
-    private DcMotor armRotateMotor;
-    private Telemetry telemetry;
+    private static DcMotor armSlideMotor;
+    private static DcMotor armRotateMotor;
+    private static Telemetry telemetry;
 
     private static final int ARM_TOP_POSITION = 10;
     private static final int ARM_BOTTOM_POSITION = 0;
     private static final int ARM_EXTENDED_POSITION = 10;
     private static final int ARM_RETRACTED_POSITION = 0;
 
-    public Arm(HardwareMap hardwareMap, Telemetry telemetry) {
-        this.telemetry = telemetry;
+    public static void register(HardwareMap hardwareMap, Telemetry telemetry1) {
+        telemetry = telemetry1;
 
         Hardware.initArm(hardwareMap);
         armSlideMotor = Hardware.getArmSlideMotor();
@@ -29,7 +29,7 @@ public class Arm {
     }
 
 
-    public void setArmLevel(String pos) {
+    public static void setArmLevel(String pos) {
         int targetPosition = pos.equals("TOP") ? ARM_TOP_POSITION : ARM_BOTTOM_POSITION;
 
         armRotateMotor.setTargetPosition(targetPosition);
@@ -47,29 +47,29 @@ public class Arm {
     }
 
 
-    public void extendArmSlide() {
+    public static void extendArmSlide() {
         moveArmSlideToPosition(ARM_EXTENDED_POSITION, 0.7);
     }
 
 
-    public void retractArmSlide() {
+    public static void retractArmSlide() {
         moveArmSlideToPosition(ARM_RETRACTED_POSITION, -0.7);
     }
 
 
-    public void moveArmSlide(double power) {
+    public static void moveArmSlide(double power) {
         armSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         armSlideMotor.setPower(power);
     }
 
 
-    public void stopTargetingArm() {
+    public static void stopTargetingArm() {
         armRotateMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         armRotateMotor.setPower(0);
     }
 
 
-    private void moveArmSlideToPosition(int position, double power) {
+    private static void moveArmSlideToPosition(int position, double power) {
         armSlideMotor.setTargetPosition(position);
         armSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armSlideMotor.setPower(power);

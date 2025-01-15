@@ -7,21 +7,21 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Climb {
 
-    private DcMotor linearActuator;
-    private Telemetry telemetry;
+    private static DcMotor linearActuator;
+    private static Telemetry telemetry;
 
-    public Climb(HardwareMap hardwareMap, Telemetry telemetry) {
-        this.telemetry = telemetry;
+    public static void register(HardwareMap hardwareMap, Telemetry telemetry1) {
+        telemetry = telemetry1;
 
         Hardware.initLinearActuator(hardwareMap);
-        this.linearActuator = Hardware.getLinearActuator();
+        linearActuator = Hardware.getLinearActuator();
 
         linearActuator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         linearActuator.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
 
-    public void setLinearActuatorPosition(int position) {
+    public static void setLinearActuatorPosition(int position) {
         linearActuator.setTargetPosition(position);
         linearActuator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         linearActuator.setPower(1.0);
@@ -37,13 +37,13 @@ public class Climb {
     }
 
 
-    public void moveLinearActuator(double power) {
+    public static void moveLinearActuator(double power) {
         linearActuator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         linearActuator.setPower(power);
     }
 
 
-    public void stopLinearActuator() {
+    public static void stopLinearActuator() {
         linearActuator.setPower(0);
     }
 }

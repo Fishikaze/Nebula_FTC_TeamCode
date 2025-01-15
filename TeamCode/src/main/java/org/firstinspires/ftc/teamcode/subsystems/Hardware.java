@@ -7,17 +7,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Hardware {
 
     // Static hardware components
-    private static DcMotor frontRightDrive;
-    private static DcMotor frontLeftDrive;
-    private static DcMotor backRightDrive;
-    private static DcMotor backLeftDrive;
-    private static DcMotor linearActuator;
-    private static DcMotor armSlideMotor;
-    private static DcMotor armRotationMotor;
-    private static CRServo leftServo;
-    private static CRServo rightServo;
+    private static DcMotor frontRightDrive, frontLeftDrive, backRightDrive, backLeftDrive, linearActuator, armSlideMotor, armRotationMotor;
+    private static CRServo leftServo, rightServo;
 
     // Initialize drivetrain hardware
+    // I think these need to be uppercase, but idk - Anthony
     public static void initDrivetrain(HardwareMap hardwareMap) {
         frontRightDrive = hardwareMap.get(DcMotor.class, "fr");
         frontLeftDrive = hardwareMap.get(DcMotor.class, "fl");

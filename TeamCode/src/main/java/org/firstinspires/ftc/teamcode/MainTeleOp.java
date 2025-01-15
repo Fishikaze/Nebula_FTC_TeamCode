@@ -32,7 +32,7 @@ public class MainTeleOp extends LinearOpMode {
         // While loop missing
         AutonMethods autonMethods = new AutonMethods();
         Hardware hardware = new Hardware();
-        autonMethods.hardwareMap(hardwareMap);
+        autonMethods.hardwareMap(telemetry);
 
         frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
