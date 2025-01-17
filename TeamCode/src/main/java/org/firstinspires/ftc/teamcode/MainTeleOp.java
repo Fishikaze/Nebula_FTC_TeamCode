@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.subsystems.Hardware;
+
 /**(
  * Jason Chang Mecanum Drive
  * Robotics team Nebula
@@ -29,8 +31,8 @@ public class MainTeleOp extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         // While loop missing
         AutonMethods autonMethods = new AutonMethods();
-
-        autonMethods.hardwareMap(hardwareMap);
+        Hardware hardware = new Hardware();
+        autonMethods.hardwareMap(telemetry);
 
         frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

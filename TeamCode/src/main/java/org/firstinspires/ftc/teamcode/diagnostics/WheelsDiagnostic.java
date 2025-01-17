@@ -16,14 +16,12 @@ public class WheelsDiagnostic extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Hardware hardware = new Hardware();
-        hardware.hardwareMapDrivetrain(hardwareMap);
+        Hardware.initDrivetrain(hardwareMap);
 
-        frontLeftDrive = hardware.getFrontLeftDrive();
-        frontRightDrive = hardware.getFrontRightDrive();
-        backLeftDrive = hardware.getBackLeftDrive();
-        backRightDrive = hardware.getBackRightDrive();
-
+        frontLeftDrive = Hardware.getFrontLeftDrive();
+        frontRightDrive = Hardware.getFrontRightDrive();
+        backLeftDrive = Hardware.getBackLeftDrive();
+        backRightDrive = Hardware.getBackRightDrive();
 
         frontLeftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         frontRightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -32,10 +30,7 @@ public class WheelsDiagnostic extends LinearOpMode {
 
         waitForStart();
 
-
-
-        while(opModeIsActive())
-        {
+        while (opModeIsActive()) {
             frontLeftDrive.setPower(gamepad1.x ? POWER : 0);
             frontRightDrive.setPower(gamepad1.y ? POWER : 0);
             backLeftDrive.setPower(gamepad1.a ? POWER : 0);
@@ -52,6 +47,5 @@ public class WheelsDiagnostic extends LinearOpMode {
             telemetry.addData("Back Right Power", backRightDrive.getPower());
             telemetry.update();
         }
-
     }
 }
