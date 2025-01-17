@@ -12,7 +12,10 @@ import org.firstinspires.ftc.teamcode.subsystems.Hardware;
  * V1.0
  *
  */
-@TeleOp(name = "Mecanum First Test")
+@TeleOp(name = "Mecanum 1st test DO NOT USE PLS")
+/*
+DO NOT USE
+ */
 public class MainTeleOp extends LinearOpMode {
     private DcMotor frontRight;
     private DcMotor frontLeft;

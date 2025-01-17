@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Climb;
 import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
 import org.firstinspires.ftc.teamcode.subsystems.Hardware;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 
+@TeleOp(name = "NEBULA TELEOP")
 public class NebulaTeleOpMain extends LinearOpMode {
 
     @Override

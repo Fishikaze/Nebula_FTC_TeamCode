@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@TeleOp(name="TeleOp Drive")
+@TeleOp(name="TeleOp Drive OUTDATED")
 
 public class TeleOpDrive extends LinearOpMode{
 
