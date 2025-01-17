@@ -6,87 +6,62 @@ import com.qualcomm.robotcore.hardware.CRServo;
 
 import org.firstinspires.ftc.teamcode.subsystems.Hardware;
 
-
-// LS - Reverse RS - Forward | Intake
-// LS - Forward RS - Reverse | Outtake
-
 @TeleOp(name = "ClawDiagnostic")
+public class IntakeDiagnostic extends LinearOpMode {
 
-public class IntakeDiagnostic extends LinearOpMode
-{
     private CRServo leftServo, rightServo;
     private final double POWER = 0.7;
-    @Override
-    public void runOpMode() throws InterruptedException
-    {
-        Hardware hardware = new Hardware();
-        hardware.hardwareMapServos(hardwareMap);
 
-        leftServo = hardware.getLeftServo();
-        rightServo = hardware.getRightServo();
+    @Override
+    public void runOpMode() throws InterruptedException {
+        Hardware.initServos(hardwareMap);
+
+        leftServo = Hardware.getLeftServo();
+        rightServo = Hardware.getRightServo();
 
         waitForStart();
 
-        while (opModeIsActive())
-        {
-            if(gamepad1.right_trigger > 0)
-            {
+        while (opModeIsActive()) {
+            if (gamepad1.right_trigger > 0) {
                 leftServo.setPower(POWER);
-            }
-            if(gamepad1.left_trigger > 0)
+            } else if (gamepad1.left_trigger > 0) {
                 rightServo.setPower(POWER);
+            } else {
+                leftServo.setPower(0);
+                rightServo.setPower(0);
             }
 
-            if (gamepad1.a)
-            {
+            if (gamepad1.a) {
                 leftServo.setPower(POWER);
                 rightServo.setPower(POWER);
+            } else if (gamepad1.b) {
+                leftServo.setPower(0);
+                rightServo.setPower(0);
             }
-            if (gamepad1.b)
-            {
-               leftServo.setPower(0);
-               rightServo.setPower(0);
-            }
-            if (gamepad1.x)
-            {
+
+            if (gamepad1.x) {
                 setIntakeMode("IN");
-
-            }
-            if (gamepad1.y)
-            {
+            } else if (gamepad1.y) {
                 setIntakeMode("OUT");
-
             }
+
+            // Telemetry for debugging
             telemetry.addData("Left Servo Power", leftServo.getPower());
             telemetry.addData("Right Servo Power", rightServo.getPower());
-
-            telemetry.addData("Left Servo Direction", leftServo.getDirection());
-            telemetry.addData("Right Servo Direction", rightServo.getDirection());
-
             telemetry.update();
+        }
     }
-    public void setIntakeMode(String mode)
-    {
-        if (mode.equals("IN"))
-        {
+
+    public void setIntakeMode(String mode) {
+        if (mode.equals("IN")) {
             leftServo.setDirection(CRServo.Direction.REVERSE);
             rightServo.setDirection(CRServo.Direction.FORWARD);
-        }
-        else if (mode.equals("OUT"))
-        {
+        } else if (mode.equals("OUT")) {
             leftServo.setDirection(CRServo.Direction.FORWARD);
             rightServo.setDirection(CRServo.Direction.REVERSE);
         }
-        if (leftServo.getPower() != 0)
-        {
-            leftServo.setPower(0);
-            leftServo.setPower(POWER);
-        }
-        if (rightServo.getPower() != 0)
-        {
-            rightServo.setPower(0);
-            rightServo.setPower(POWER);
-        }
-    }
 
+        leftServo.setPower(POWER);
+        rightServo.setPower(POWER);
+    }
 }
