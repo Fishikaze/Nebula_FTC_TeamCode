@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous
 
@@ -11,12 +13,24 @@ public class AutonTest extends LinearOpMode{
     private DcMotor frontRightDrive;
     private DcMotor backLeftDrive;
     private DcMotor backRightDrive;
+    private DcMotor armSlideMotor, armRotateMotor;
+    private CRServo leftServo, rightServo;
+    private final int ROTATE = 500;
 
     private enum Direction {
         FORWARD,
         BACKWARD,
         RIGHT,
         LEFT,
+    }
+    private enum armPos{
+        TOP,
+        BOTTOM
+    }
+    private enum intakeMode
+    {
+        INTAKE,
+        OUTTAKE
     }
 
     @Override
@@ -26,6 +40,12 @@ public class AutonTest extends LinearOpMode{
         backLeftDrive = hardwareMap.get(DcMotor.class,"bl");
         backRightDrive = hardwareMap.get(DcMotor.class,"br");
 
+        armSlideMotor = hardwareMap.get(DcMotor.class, "asm");
+        armRotateMotor = hardwareMap.get(DcMotor.class, "arm");
+
+        leftServo = hardwareMap.get(CRServo.class, "ls");
+        rightServo = hardwareMap.get(CRServo.class, "rs");
+
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
 
@@ -33,13 +53,48 @@ public class AutonTest extends LinearOpMode{
         frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armRotateMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         waitForStart();
 
-        drive(500, 0.5, 0, Direction.FORWARD);
-    }
+//        drive(500, 0.5, Direction.FORWARD);
+        setIntakeMode(intakeMode.INTAKE);
+        armSlidePosition(500, 0.3, armPos.TOP);
+        setIntakeMode(intakeMode.OUTTAKE);
+        armSlidePosition(500, 0.3, armPos.BOTTOM);
 
-    public void drive(int ticks, double power, double speed, Direction direction)
+    }
+    public void setIntakeMode(intakeMode intakeMode)
+    {
+        switch (intakeMode)
+        {
+            case INTAKE:
+                leftServo.setPower(1);
+                rightServo.setPower(-1);
+            case OUTTAKE:
+                leftServo.setPower(-1);
+                rightServo.setPower(1);
+
+        }
+
+    }
+    public void armSlidePosition(int position, double power, armPos armPos)
+    {
+        switch (armPos)
+        {
+            case TOP:
+                armSlideMotor.setPower(power);
+                armSlideMotor.setTargetPosition(armSlideMotor.getCurrentPosition() + position);
+                armSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            case BOTTOM:
+                armSlideMotor.setPower(-power);
+                armSlideMotor.setTargetPosition(armSlideMotor.getCurrentPosition() - position);
+                armSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+
+    }
+    public void drive(int ticks, double power, Direction direction)
     {
         switch(direction) {
             case FORWARD:
