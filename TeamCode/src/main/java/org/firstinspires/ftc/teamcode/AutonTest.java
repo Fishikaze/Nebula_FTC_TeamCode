@@ -30,7 +30,8 @@ public class AutonTest extends LinearOpMode{
     private enum intakeMode
     {
         INTAKE,
-        OUTTAKE
+        OUTTAKE,
+        STOP
     }
 
     @Override
@@ -75,10 +76,14 @@ public class AutonTest extends LinearOpMode{
             case OUTTAKE:
                 leftServo.setPower(-1);
                 rightServo.setPower(1);
+            case STOP:
+                leftServo.setPower(0);
+                rightServo.setPower(0);
 
         }
 
     }
+
     public void armSlidePosition(int position, double power, armPos armPos)
     {
         switch (armPos)
@@ -160,6 +165,11 @@ public class AutonTest extends LinearOpMode{
         }
 
 
+
+    }
+    public void robotFN()
+    {
+        armSlidePosition(1000,0.3,armPos.TOP);
     }
 
 }
