@@ -27,6 +27,10 @@ public class AutonTest extends LinearOpMode{
         TOP,
         BOTTOM
     }
+    private enum armRotatePos{
+        TOP,
+        BOTTOM
+    }
     private enum intakeMode
     {
         INTAKE,
@@ -87,6 +91,22 @@ public class AutonTest extends LinearOpMode{
     public void armSlidePosition(int position, double power, armPos armPos)
     {
         switch (armPos)
+        {
+            case TOP:
+                armSlideMotor.setPower(power);
+                armSlideMotor.setTargetPosition(armSlideMotor.getCurrentPosition() + position);
+                armSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            case BOTTOM:
+                armSlideMotor.setPower(-power);
+                armSlideMotor.setTargetPosition(armSlideMotor.getCurrentPosition() - position);
+                armSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+
+    }
+
+    public void armRotatePosition(int position, double power, armRotatePos armRotatePos)
+    {
+        switch (armRotatePos)
         {
             case TOP:
                 armSlideMotor.setPower(power);
@@ -169,7 +189,14 @@ public class AutonTest extends LinearOpMode{
     }
     public void robotFN()
     {
+        armRotatePosition(1300, 0.3, armRotatePos.TOP);
         armSlidePosition(1000,0.3,armPos.TOP);
+        setIntakeMode(intakeMode.OUTTAKE);
+        sleep(1000);
+        setIntakeMode(intakeMode.STOP);
+        armRotatePosition(1300, 0.3, armRotatePos.BOTTOM);
+        armSlidePosition(1000,0.3,armPos.BOTTOM);
+
     }
 
 }

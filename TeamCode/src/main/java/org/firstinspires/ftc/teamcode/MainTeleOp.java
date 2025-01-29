@@ -54,7 +54,7 @@ public class MainTeleOp extends LinearOpMode {
             frontLeft.setPower(drive + strafe - spin);
             frontRight.setPower(drive - strafe + spin);
             backLeft.setPower(drive - strafe - spin);
-            backRight.setPower(drive + strafe + spin);
+            backRight.setPower(drive + strafe + spin);  
 
             if (gamepad1.dpad_up)
             {
