@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous
+@Autonomous(name = "Auton")
 
 public class AutonTest extends LinearOpMode{
     private DcMotor frontLeftDrive;
@@ -64,6 +64,11 @@ public class AutonTest extends LinearOpMode{
         waitForStart();
 
 //        drive(500, 0.5, Direction.FORWARD);
+
+        // AUTON MOVEMENT HERE
+
+        // 4 DUNKS!!!
+
         setIntakeMode(intakeMode.INTAKE);
         armSlidePosition(500, 0.3, armPos.TOP);
         setIntakeMode(intakeMode.OUTTAKE);
