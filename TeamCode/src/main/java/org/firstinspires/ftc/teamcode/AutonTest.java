@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 @Autonomous(name = "Auton")
 public class AutonTest extends LinearOpMode {
     private DcMotor fl, fr, bl, br;
-    private DcMotor armSlideMotor, armRotateMotor;
+    private DcMotor armSlideMotor, armRotateMotor2, armRotateMotor1;
     private CRServo leftServo, rightServo;
 
     public enum armPos { TOP, BOTTOM }
@@ -33,7 +33,10 @@ public class AutonTest extends LinearOpMode {
         br = hardwareMap.get(DcMotor.class, "br");
 
         armSlideMotor = hardwareMap.get(DcMotor.class, "asm");
-        armRotateMotor = hardwareMap.get(DcMotor.class, "arm");
+
+        armRotateMotor1 = hardwareMap.get(DcMotor.class, "arm1");
+        armRotateMotor2 = hardwareMap.get(DcMotor.class, "arm2");
+
 
         leftServo = hardwareMap.get(CRServo.class, "ls");
         rightServo = hardwareMap.get(CRServo.class, "rs");
@@ -46,7 +49,7 @@ public class AutonTest extends LinearOpMode {
         bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         armSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        armRotateMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armRotateMotor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         waitForStart();
 
@@ -74,26 +77,35 @@ public class AutonTest extends LinearOpMode {
         switch (pos) {
             case TOP:
                 armSlideMotor.setTargetPosition(armSlideMotor.getCurrentPosition() + position);
+
                 break;
             case BOTTOM:
                 armSlideMotor.setTargetPosition(armSlideMotor.getCurrentPosition() - position);
+
                 break;
         }
         armSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armSlideMotor.setPower(power);
+
     }
 
     public void armRotatePosition(int position, double power, armRotatePos pos) {
         switch (pos) {
             case TOP:
-                armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() + position);
+                armRotateMotor1.setTargetPosition(armRotateMotor1.getCurrentPosition() + position);
+                armRotateMotor2.setTargetPosition(armRotateMotor1.getCurrentPosition() + position);
+
                 break;
             case BOTTOM:
-                armRotateMotor.setTargetPosition(armRotateMotor.getCurrentPosition() - position);
+                armRotateMotor1.setTargetPosition(armRotateMotor1.getCurrentPosition() - position);
+                armRotateMotor2.setTargetPosition(armRotateMotor1.getCurrentPosition() + position);
+
                 break;
         }
-        armRotateMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        armRotateMotor.setPower(power);
+        armRotateMotor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armRotateMotor1.setPower(power);
+        armRotateMotor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armRotateMotor2.setPower(power);
     }
 
     public void drive(double theta, double power, double turn, int distance) {
