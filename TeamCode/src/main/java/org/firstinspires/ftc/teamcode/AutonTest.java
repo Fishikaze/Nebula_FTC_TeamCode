@@ -141,7 +141,7 @@ public class AutonTest extends LinearOpMode {
         bl.setPower(backLeftPower);
         br.setPower(backRightPower);
 
-        sleep(100); // Small delay to allow motors to start moving
+        sleep(100);
 
         while (fl.isBusy() || fr.isBusy() || bl.isBusy() || br.isBusy()) {
             // Wait until all motors reach their target positions
