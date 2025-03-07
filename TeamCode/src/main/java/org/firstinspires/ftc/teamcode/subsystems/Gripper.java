@@ -18,16 +18,16 @@ public class Gripper {
     //TEST ASAP
     public static void toggleHorizontal() {
         double pos = hs.getPosition();
-        hs.setPosition(pos == 0.8 ? 0.2 : 0.8);
+        hs.setPosition(pos >= 0.6 ? 0.2 : 0.8);
     }
 
     //TEST ASAP
     public static void toggleVertical() {
-        vs.setPosition(1);
+        vs.setPosition(.75);
     }
 
     public static void move(boolean up) {
         double pos = vs.getPosition();
-        vs.setPosition(up ? pos + 0.05 : pos - 0.05);
+        vs.setPosition(up ? pos- 0.05 : pos + 0.05);
     }
 }
