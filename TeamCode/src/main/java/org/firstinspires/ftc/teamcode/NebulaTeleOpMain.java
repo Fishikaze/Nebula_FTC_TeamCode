@@ -5,8 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.subsystems.Arm;
 import org.firstinspires.ftc.teamcode.subsystems.Climb;
 import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
-import org.firstinspires.ftc.teamcode.subsystems.Hardware;
-import org.firstinspires.ftc.teamcode.subsystems.Intake;
+import org.firstinspires.ftc.teamcode.subsystems.Gripper;
 
 @TeleOp(name = "NEBULA TELEOP")
 public class NebulaTeleOpMain extends LinearOpMode {
@@ -14,11 +13,10 @@ public class NebulaTeleOpMain extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        //AutonMethods.hardwareMap(telemetry);
         Drivetrain.register(hardwareMap, telemetry);
         Arm.register(hardwareMap, telemetry);
         Climb.register(hardwareMap, telemetry);
-        Intake.register(hardwareMap);
+        Gripper.register(hardwareMap);
 
         waitForStart();
 
@@ -52,11 +50,12 @@ public class NebulaTeleOpMain extends LinearOpMode {
                 Climb.setLinearActuatorPosition(0);
             }
 
-            if(gamepad1.x) {
-                Intake.setIntakeMode("intake");
-            } else if(gamepad1.y) {
-                Intake.setIntakeMode("outtake");
-            }
+            //GRIPPER
+            if(gamepad1.x) Gripper.toggleHorizontal();
+            if (gamepad1.y) Gripper.toggleVertical();
+            if (gamepad1.right_bumper) Gripper.move(true);
+            else if (gamepad1.left_bumper) Gripper.move(false);
+
         }
     }
 }

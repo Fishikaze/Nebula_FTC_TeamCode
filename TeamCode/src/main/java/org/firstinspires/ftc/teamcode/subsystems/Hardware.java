@@ -3,12 +3,13 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class Hardware {
 
     // Static hardware components
-    private static DcMotor frontRightDrive, frontLeftDrive, backRightDrive, backLeftDrive, linearActuator, armSlideMotor, armRotationMotor;
-    private static CRServo leftServo, rightServo;
+    private static DcMotor frontRightDrive, frontLeftDrive, backRightDrive, backLeftDrive, linearActuator, armSlideMotor, armRotationMotor, armRotationMotor2;
+    private static Servo verticalServo, horizontalServo;
 
     // Initialize drivetrain hardware
     // I think these need to be uppercase, but idk - Anthony
@@ -21,8 +22,8 @@ public class Hardware {
 
     // Initialize servo hardware
     public static void initServos(HardwareMap hardwareMap) {
-        leftServo = hardwareMap.get(CRServo.class, "ls");
-        rightServo = hardwareMap.get(CRServo.class, "rs");
+        verticalServo = hardwareMap.get(Servo.class, "vs");
+        horizontalServo = hardwareMap.get(Servo.class, "hs");
     }
 
     // Initialize linear actuator
@@ -34,6 +35,7 @@ public class Hardware {
     public static void initArm(HardwareMap hardwareMap) {
         armSlideMotor = hardwareMap.get(DcMotor.class, "asm");
         armRotationMotor = hardwareMap.get(DcMotor.class, "arm");
+        armRotationMotor2 = hardwareMap.get(DcMotor.class, "arm2");
     }
 
     // Getters for hardware components
@@ -64,12 +66,15 @@ public class Hardware {
     public static DcMotor getArmRotationMotor() {
         return armRotationMotor;
     }
-
-    public static CRServo getLeftServo() {
-        return leftServo;
+    public static DcMotor getArmRotationMotor2() {
+        return armRotationMotor2;
     }
 
-    public static CRServo getRightServo() {
-        return rightServo;
+    public static Servo getHorizontalServo() {
+        return horizontalServo;
+    }
+
+    public static Servo getVerticalServo() {
+        return verticalServo;
     }
 }
