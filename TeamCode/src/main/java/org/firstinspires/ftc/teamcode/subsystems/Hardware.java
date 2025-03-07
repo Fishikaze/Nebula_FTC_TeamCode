@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Hardware {
 
-    // Static hardware components
+    // Static hardware components pro
     private static DcMotor frontRightDrive, frontLeftDrive, backRightDrive, backLeftDrive, linearActuator, armSlideMotor, armRotationMotor, armRotationMotor2;
     private static Servo verticalServo, horizontalServo;
 

@@ -50,7 +50,7 @@ public class NebulaTeleOpMain extends LinearOpMode {
                 Climb.setLinearActuatorPosition(0);
             }
 
-            //GRIPPER
+            //GRIPPER NEW
             if(gamepad1.x) Gripper.toggleHorizontal();
             if (gamepad1.y) Gripper.toggleVertical();
             if (gamepad1.right_bumper) Gripper.move(true);
