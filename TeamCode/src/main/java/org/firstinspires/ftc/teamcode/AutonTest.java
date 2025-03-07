@@ -109,27 +109,27 @@ public class AutonTest extends LinearOpMode {
     }
 
     public void drive(double theta, double power, double turn, int distance) {
-        double sin = Math.sin(theta - Math.PI/4);
-        double cos = Math.cos(theta - Math.PI/4);
+        double sin = Math.sin(theta - Math.PI / 4);
+        double cos = Math.cos(theta - Math.PI / 4);
         double max = Math.max(Math.abs(sin), Math.abs(cos));
 
-        double frontLeftPower = power * cos/max + turn;
-        double frontRightPower = power * sin/max - turn;
-        double backLeftPower = power * sin/max + turn;
-        double backRightPower = power * cos/max - turn;
+        double frontLeftPower = power * cos / max + turn;
+        double frontRightPower = power * sin / max - turn;
+        double backLeftPower = power * sin / max + turn;
+        double backRightPower = power * cos / max - turn;
 
         double maxPower = Math.max(Math.max(Math.abs(frontLeftPower), Math.abs(frontRightPower)), Math.max(Math.abs(backLeftPower), Math.abs(backRightPower)));
-        if((power + Math.abs(turn))>1) {
-            frontLeftPower /= power + turn;
-            frontRightPower /= power + turn;
-            backLeftPower /= power + turn;
-            backRightPower /= power + turn;
+        if (maxPower > 1.0) {
+            frontLeftPower /= maxPower;
+            frontRightPower /= maxPower;
+            backLeftPower /= maxPower;
+            backRightPower /= maxPower;
         }
 
-        fl.setTargetPosition((int)(distance * (Math.abs(frontLeftPower / maxPower))) + fl.getCurrentPosition());
-        fr.setTargetPosition((int)(distance * (Math.abs(frontRightPower / maxPower))) + fr.getCurrentPosition());
-        bl.setTargetPosition((int)(distance * (Math.abs(backLeftPower / maxPower))) + bl.getCurrentPosition());
-        br.setTargetPosition((int)(distance * (Math.abs(backRightPower / maxPower))) + br.getCurrentPosition());
+        fl.setTargetPosition((int) (distance * (frontLeftPower / maxPower)) + fl.getCurrentPosition());
+        fr.setTargetPosition((int) (distance * (frontRightPower / maxPower)) + fr.getCurrentPosition());
+        bl.setTargetPosition((int) (distance * (backLeftPower / maxPower)) + bl.getCurrentPosition());
+        br.setTargetPosition((int) (distance * (backRightPower / maxPower)) + br.getCurrentPosition());
 
         fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -140,20 +140,14 @@ public class AutonTest extends LinearOpMode {
         fr.setPower(frontRightPower);
         bl.setPower(backLeftPower);
         br.setPower(backRightPower);
-        while (fl.getPower() != 0 || fr.getPower() != 0 || bl.getPower() != 0 || br.getPower() != 0)
-        {
 
-            int flp = fl.getCurrentPosition();
-            int frp = fr.getCurrentPosition();
-            int blp = bl.getCurrentPosition();
-            int brp = br.getCurrentPosition();
+        sleep(100);
 
-            fl.setPower(flp >= fl.getTargetPosition() - 10 && flp <= fl.getTargetPosition() + 10 ? 0 : frontLeftPower);
-            fr.setPower(frp >= fr.getTargetPosition() - 10 && frp <= fr.getTargetPosition() + 10 ? 0 : frontRightPower);
-            bl.setPower(blp >= bl.getTargetPosition() - 10 && blp <= bl.getTargetPosition() + 10 ? 0 : backLeftPower);
-            br.setPower(brp >= br.getTargetPosition() - 10 && brp <= br.getTargetPosition() + 10 ? 0 : backRightPower);
-
+        while (fl.isBusy() || fr.isBusy() || bl.isBusy() || br.isBusy()) {
+            // Wait until all motors reach their target positions
         }
+
+        resetMotors();
     }
 
     public void resetMotors() {
