@@ -10,6 +10,8 @@ public class Climb {
     private static DcMotor linearActuator;
     private static Telemetry telemetry;
 
+    public static int posStorage = 0;
+
     public static void register(HardwareMap hardwareMap, Telemetry telemetry1) {
         telemetry = telemetry1;
 
@@ -21,19 +23,23 @@ public class Climb {
     }
 
 
-    public static void setLinearActuatorPosition(int position) {
+    public static boolean setLinearActuatorPosition(int position) {
         linearActuator.setTargetPosition(position);
         linearActuator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         linearActuator.setPower(1.0);
 
-        while (linearActuator.isBusy() && telemetry != null) {
+        if (linearActuator.isBusy() && telemetry != null) {
             telemetry.addData("Linear Actuator Position", linearActuator.getCurrentPosition());
             telemetry.addData("Target Position", position);
             telemetry.update();
+            posStorage = position;
+            return true;
+        } else {
+            linearActuator.setPower(0);
+            linearActuator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            posStorage = 0;
+            return false;
         }
-
-        linearActuator.setPower(0);
-        linearActuator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
 
@@ -47,3 +53,5 @@ public class Climb {
         linearActuator.setPower(0);
     }
 }
+
+

@@ -11,6 +11,9 @@ public class Arm {
     private static DcMotor armRotateMotor, armRotateMotor2;
     private static Telemetry telemetry;
 
+    public static String rotStorage = "";
+    public static double slideStorage = 0;
+
     private static final int ARM_TOP_POSITION = 10;
     private static final int ARM_BOTTOM_POSITION = 0;
     private static final int ARM_EXTENDED_POSITION = 10;
@@ -32,7 +35,7 @@ public class Arm {
     }
 
 
-    public static void setArmLevel(String pos) {
+    public static boolean setArmLevel(String pos) {
         int targetPosition = pos.equals("TOP") ? ARM_TOP_POSITION : ARM_BOTTOM_POSITION;
 
         armRotateMotor.setTargetPosition(targetPosition);
@@ -42,16 +45,20 @@ public class Arm {
         armRotateMotor.setPower(targetPosition > armRotateMotor.getCurrentPosition() ? 1.0 : -0.7);
         armRotateMotor2.setPower(targetPosition > armRotateMotor2.getCurrentPosition() ? 1.0 : -0.7);
 
-        while (armRotateMotor.isBusy() && telemetry != null) {
+        if (armRotateMotor.isBusy() && telemetry != null) {
             telemetry.addData("Arm Position", armRotateMotor.getCurrentPosition());
             telemetry.addData("Target Position", targetPosition);
             telemetry.update();
+            rotStorage = pos;
+            return true;
+        } else {
+            armRotateMotor.setPower(0);
+            armRotateMotor2.setPower(0);
+            armRotateMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            armRotateMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rotStorage = "";
+            return false;
         }
-
-        armRotateMotor.setPower(0);
-        armRotateMotor2.setPower(0);
-        armRotateMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        armRotateMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
 
@@ -79,18 +86,25 @@ public class Arm {
     }
 
 
-    private static void moveArmSlideToPosition(int position, double power) {
+    /** See Anthony for auton implementation, this will have to change */
+    private static boolean moveArmSlideToPosition(int position, double power) {
         armSlideMotor.setTargetPosition(position);
         armSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armSlideMotor.setPower(power);
 
-        while (armSlideMotor.isBusy() && telemetry != null) {
+        if (armSlideMotor.isBusy() && telemetry != null) {
             telemetry.addData("Arm Slide Position", armSlideMotor.getCurrentPosition());
             telemetry.addData("Target Position", position);
             telemetry.update();
+            slideStorage = power;
+            return true;
+        } else {
+            armSlideMotor.setPower(0);
+            armSlideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            slideStorage = 0;
+            return false;
         }
-
-        armSlideMotor.setPower(0);
-        armSlideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 }
+
+
